@@ -5,4 +5,16 @@ public class Payroll{
     public Payroll(){
         
     }
+    public int calculateBasicSalary(){
+        
+    }
+    public int calculateBonus(){
+        
+    }
+    public int calculateNetSalary(){
+
+    }
+    public void generatePayslip(){
+
+    }
 }

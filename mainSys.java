@@ -10,7 +10,7 @@ public class mainSys extends Applet {
     private Button addButton;
 
     public void init() {
-        Font f = new Font("Times New Roman", Font.BOLD, 36);
+        Font f = new Font("TimesRoman", Font.BOLD, 36);
         title = new Label("Staff Payroll Management System");
         title.setFont(f);
         

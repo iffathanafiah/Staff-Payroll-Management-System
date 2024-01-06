@@ -12,4 +12,16 @@ public class Staff{
     public int getID(){
         return this.ID;
     }
+    public void hireStaff(){
+
+    }
+    public void viewStaff(){
+
+    }
+    public void updateStaff(){
+
+    }
+    public void fireStaff(){
+
+    }
 }
