@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Staff{
     private String firstName, lastName, position;
     private int ID;
