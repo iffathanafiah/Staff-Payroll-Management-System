@@ -8,7 +8,6 @@ public class LoginApplet extends Applet implements ActionListener{
 
     private TextField usernameTextField, passwordTextField;
     private Button loginButton;
-    private Label title;
 
     private StaffApplet staff;
     // private PayrollApplet payroll;

@@ -1,12 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.applet.*;
+import java.util.ArrayList;
 
 public class StaffApplet extends Applet implements ActionListener {
     private CardLayout cardLayout = new CardLayout();
     private Panel cardPanel = new Panel();
 
+    private ArrayList<Staff> staff = new ArrayList<>();
     private Panel home, addStaff, viewStaff, editStaff, removeStaff;
+
+    private TextField fname, lname;
 
     public StaffApplet(CardLayout cardLayout, Panel cardPanel){
         this.cardLayout = cardLayout;
@@ -75,13 +79,29 @@ public class StaffApplet extends Applet implements ActionListener {
     public void addStaffPage(Panel cardPanel){
         addStaff = new Panel();
         addStaff.setLayout(new BorderLayout());
-
         addStaff.add(header(), BorderLayout.NORTH);
+        
+        Panel fnameElem = new Panel();
+        fname = new TextField(25);
+        fnameElem.add(new Label("First Name:"));
+        fnameElem.add(fname);
+        Panel lnameElem = new Panel();
+        lname = new TextField(25);
+        lnameElem.add(new Label("Last Name:"));
+        lnameElem.add(lname);
+        
+        Button addData = new Button("KICK IN");
+        addData.addActionListener(this);
 
         Panel contentPanel = new Panel();
+        contentPanel.setLayout(new GridLayout(0, 2, 10, 10));
         contentPanel.add(new Label("Add New Staff Page Content"));
-        addStaff.add(contentPanel, BorderLayout.CENTER);
+        contentPanel.add(new Label(""));
+        contentPanel.add(fnameElem);
+        contentPanel.add(lnameElem);
+        contentPanel.add(addData);
 
+        addStaff.add(contentPanel, BorderLayout.CENTER);
         cardPanel.add(addStaff, "addStaff");
     }
     public void viewStaffPage(Panel cardPanel){
@@ -138,6 +158,14 @@ public class StaffApplet extends Applet implements ActionListener {
                 break;
             case "Remove Staff Data":
                 cardLayout.show(cardPanel, "removeStaff");
+                break;
+
+            case "KICK IN":
+                String a = fname.getText();
+                String b = lname.getText();
+                Staff temp = new Staff();
+                temp.hireStaff(a, b);
+                staff.add(temp);
                 break;
         }
     }

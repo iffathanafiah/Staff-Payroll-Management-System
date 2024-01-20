@@ -1,22 +1,19 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Staff{
     private String firstName, lastName, position;
     private int ID;
-    List<Payroll> payroll = new ArrayList<>();
+    ArrayList<Payroll> payroll = new ArrayList<>();
 
-    public Staff(int ID, String firstName, String lastName, String position){
-        this.ID = ID;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.position = position;
+    public Staff() {
     }
     public int getID(){
         return this.ID;
     }
-    public void hireStaff(){
-
+    public void hireStaff(String firstName, String lastName){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        System.out.println("Staff data added successfully ...");
     }
     public void viewStaff(){
 
