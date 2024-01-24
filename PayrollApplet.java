@@ -1,14 +1,14 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.applet.*;
+import javax.swing.*;
 
-public class PayrollApplet extends Applet implements ActionListener{
+public class PayrollApplet extends JApplet implements ActionListener{
     private CardLayout cardLayout;
-    private Panel cardPanel;
+    private JPanel cardPanel;
 
-    private Panel payslip;
+    private JPanel payslip;
 
-    public PayrollApplet(CardLayout cardLayout, Panel cardPanel){
+    public PayrollApplet(CardLayout cardLayout, JPanel cardPanel){
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 
@@ -18,7 +18,7 @@ public class PayrollApplet extends Applet implements ActionListener{
     }
 
     public void generatePayslipPage(){
-        payslip = new Panel();
+        payslip = new JPanel();
         payslip.setLayout(new BorderLayout());
 
         // Interface here

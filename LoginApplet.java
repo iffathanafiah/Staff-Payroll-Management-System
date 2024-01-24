@@ -1,20 +1,21 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.applet.*;
+import javax.swing.*;
 
-public class LoginApplet extends Applet implements ActionListener{
+public class LoginApplet extends JApplet implements ActionListener{
     private CardLayout cardLayout;
-    private Panel cardPanel;
+    private JPanel cardPanel;
 
-    private TextField usernameTextField, passwordTextField;
-    private Button loginButton;
+    private JTextField usernameTextField;
+    private JPasswordField passwordTextField;
+    private JButton loginButton;
 
     private StaffApplet staff;
     // private PayrollApplet payroll;
 
     public void init(){
         cardLayout = new CardLayout();
-        cardPanel = new Panel();
+        cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
         staff = new StaffApplet(cardLayout, cardPanel);
@@ -29,25 +30,24 @@ public class LoginApplet extends Applet implements ActionListener{
     }
 
     public void loginPage(){
-        Panel login = new Panel(new GridLayout(4, 1, 0, 2));
+        JPanel login = new JPanel(new GridLayout(4, 1, 0, 2));
         
         Font f = new Font("TimesRoman", Font.BOLD, 30);
         Label title = new Label("Staff Payroll Management System");
         title.setFont(f);
         title.setAlignment(Label.CENTER);
         
-        Panel usr = new Panel();
-        usernameTextField = new TextField(20);
-        usr.add(new Label("Username:"));
+        JPanel usr = new JPanel();
+        usernameTextField = new JTextField(20);
+        usr.add(new Label("Username :"));
         usr.add(usernameTextField);
         
-        Panel pwd = new Panel();
-        passwordTextField = new TextField(20);
-        passwordTextField.setEchoChar('*');
-        pwd.add(new Label("Password:"));
+        JPanel pwd = new JPanel();
+        passwordTextField = new JPasswordField(20);
+        pwd.add(new JLabel("Password :"));
         pwd.add(passwordTextField);
         
-        loginButton = new Button("Login");
+        loginButton = new JButton("Login");
 
         login.add(title, BorderLayout.CENTER);
         login.add(usr);
@@ -56,14 +56,14 @@ public class LoginApplet extends Applet implements ActionListener{
 
         cardPanel.add(login, "login");
     }
-    private boolean validateLogin(String username, String password){
-        return username.equals("admin") && password.equals("admin");
+    private boolean validateLogin(String username, char[] password){
+        return username.equals("admin") && new String(password).equals("admin");
     }
 
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == loginButton) {
             String usr = usernameTextField.getText();
-            String pwd = passwordTextField.getText();
+            char[] pwd = passwordTextField.getPassword();
 
             if (validateLogin(usr, pwd)) {
                 cardLayout.show(cardPanel, "home");
