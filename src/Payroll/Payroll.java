@@ -1,12 +1,13 @@
+package src.Payroll;
 import java.util.Date;
 
 public class Payroll{
-    private int payrollID;
+    private String payrollID;
     private Date payrollDate;
+    private double totalGrossPay, totalTaxes, totalNetPay;
 
-    public Payroll(){
-        
-    }
+    public Payroll() {}
+
     public int calculateBasicSalary(){
         return 0;
     }
