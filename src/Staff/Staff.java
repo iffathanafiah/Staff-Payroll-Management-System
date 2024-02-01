@@ -9,17 +9,36 @@ public class Staff{
     private static int totalStaff = 0, staffIDCounter = 0;
 
     public Staff() {}
+    public Staff(String ID, String firstName, String lastName, String gender, String email, String phoneNum,
+                 String address, String department, String position/*, int basicSalary, Date hiredDate*/) {
+        this.ID = ID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.email = email;
+        this.phoneNum = phoneNum;
+        this.address = address;
+        this.department = department;
+        this.position = position;
+        // this.basicSalary = basicSalary;
+        // this.hiredDate = hiredDate;
+        
+        totalStaff++;
+        staffIDCounter++;
+    }
+    
     public boolean isEmpty()        {return totalStaff == 0;}
-
     public String getID()           {return this.ID;}
-    public String getFname()        {return this.firstName;}
-    public String getLname()        {return this.lastName;}
+    public String getFirstName()    {return this.firstName;}
+    public String getLastName()     {return this.lastName;}
     public String getGender()       {return this.gender;}
     public String getEmail()        {return this.email;}
     public String getPhoneNum()     {return this.phoneNum;}
     public String getAddress()      {return this.address;}
     public String getDepartment()   {return this.department;}
     public String getPosition()     {return this.position;}
+    public int getBasicSalary()     {return this.basicSalary;}
+    public Date getHiredDate()      {return this.hiredDate;}
 
     public static void hireStaff(ArrayList<Staff> staffList, String firstName, String lastName, String gender,
                                  String email, String phoneNum, String address, String department, String position)
@@ -48,8 +67,8 @@ public class Staff{
             if (staff.getID().equals(targetID)) {
                 StringBuilder staffInfo = new StringBuilder();
                 staffInfo.append("Staff ID      : ").append(staff.getID()).append("\n");
-                staffInfo.append("First Name    : ").append(staff.getFname()).append("\n");
-                staffInfo.append("Last Name     : ").append(staff.getLname()).append("\n");
+                staffInfo.append("First Name    : ").append(staff.getFirstName()).append("\n");
+                staffInfo.append("Last Name     : ").append(staff.getLastName()).append("\n");
                 staffInfo.append("Gender        : ").append(staff.getGender()).append("\n");
                 staffInfo.append("Email Address : ").append(staff.getEmail()).append("\n");
                 staffInfo.append("Phone Number  : ").append(staff.getPhoneNum()).append("\n");
@@ -97,5 +116,11 @@ public class Staff{
             }
         }
         return false;
+    }
+
+    public static void deleteAllStaff(ArrayList<Staff> staffList) {
+        staffList.clear();
+        totalStaff = 0;
+        staffIDCounter = 0;
     }
 }

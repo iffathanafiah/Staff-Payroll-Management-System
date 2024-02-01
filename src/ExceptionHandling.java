@@ -1,4 +1,4 @@
-package src.ExceptionHandling;
+package src;
 
 public class ExceptionHandling{
     

@@ -1,4 +1,5 @@
 package src.Staff;
+import src.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -15,6 +16,7 @@ public class StaffUI extends JFrame implements ActionListener {
 
     private String staffID = "";
     private ArrayList<Staff> staff;
+    private FileHandling file;
 
     public StaffUI(){
         setTitle("Staff Payroll Management System");
@@ -26,7 +28,8 @@ public class StaffUI extends JFrame implements ActionListener {
         cardPanel = new JPanel();
         cardPanel.setLayout(cardLayout);
 
-        staff = new ArrayList<>();
+        file = new FileHandling();
+        staff = file.loadStaffData();
 
         homePage();
         addStaffPage();
@@ -156,6 +159,8 @@ public class StaffUI extends JFrame implements ActionListener {
         navBar.add(navButton("View Staff", "viewStaff"));
         navBar.add(navButton("Edit Staff", "editStaff"));
         navBar.add(navButton("Delete Staff", "deleteStaff"));
+        navBar.add(navButton("Load Data", "loadData"));
+        navBar.add(navButton("Save Data", "saveData"));
 
         return navBar;
     }
@@ -209,6 +214,16 @@ public class StaffUI extends JFrame implements ActionListener {
                 else{
                     JOptionPane.showMessageDialog(null, "Please enter a Staff ID.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+                break;
+            case "loadData":
+                Staff.deleteAllStaff(staff);
+                staff = file.loadStaffData();
+                JOptionPane.showMessageDialog(null, "Data loaded successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                break;
+
+            case "saveData":
+                file.saveStaffData(staff);
+                JOptionPane.showMessageDialog(null, "Data saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 break;
 
             default:
