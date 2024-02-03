@@ -12,7 +12,7 @@ public class Login extends JFrame implements ActionListener {
     public Login() {
         setTitle("Login to Main System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(600, 450);
         setLocationRelativeTo(null);
 
         JPanel loginPanel = createLoginPanel();
@@ -60,7 +60,7 @@ public class Login extends JFrame implements ActionListener {
 
             if(validateLogin(usr, pwd)){
                 dispose();
-                SwingUtilities.invokeLater(() -> new StaffUI());
+                SwingUtilities.invokeLater(() -> new MainSystem());
             }
             else{
                 JOptionPane.showMessageDialog(this, "Invalid login credentials. Please try again.", "Login Error", JOptionPane.ERROR_MESSAGE);

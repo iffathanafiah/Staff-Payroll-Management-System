@@ -1,16 +1,23 @@
 package src.Staff;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Staff{
-    private String ID, firstName, lastName, gender, email, phoneNum, address, department, position;
-    private int basicSalary;
-    private Date hiredDate;
-
+    private static ArrayList<Staff> staffList = new ArrayList<>();
     private static int totalStaff = 0, staffIDCounter = 0;
+
+    private String ID, firstName, lastName, gender, email, phoneNum, address, department, position;
+    private double basicSalary;
+    private Date hiredDate;
 
     public Staff() {}
     public Staff(String ID, String firstName, String lastName, String gender, String email, String phoneNum,
-                 String address, String department, String position/*, int basicSalary, Date hiredDate*/) {
+                 String address, String department, String position, double basicSalary/*, Date hiredDate*/) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -20,7 +27,7 @@ public class Staff{
         this.address = address;
         this.department = department;
         this.position = position;
-        // this.basicSalary = basicSalary;
+        this.basicSalary = basicSalary;
         // this.hiredDate = hiredDate;
         
         totalStaff++;
@@ -37,11 +44,20 @@ public class Staff{
     public String getAddress()      {return this.address;}
     public String getDepartment()   {return this.department;}
     public String getPosition()     {return this.position;}
-    public int getBasicSalary()     {return this.basicSalary;}
+    public double getBasicSalary()  {return this.basicSalary;}
     public Date getHiredDate()      {return this.hiredDate;}
+    
+    public double getBasicSalary(String ID){
+        for (Staff staff : staffList) {
+            if (staff.getID().equals(ID)){
+                return staff.basicSalary;
+            }
+        }
+        return 0.00;
+    }
 
-    public static void hireStaff(ArrayList<Staff> staffList, String firstName, String lastName, String gender,
-                                 String email, String phoneNum, String address, String department, String position)
+    public static void hireStaff(String firstName, String lastName, String gender, String email,
+                                 String phoneNum, String address, String department, String position)
     {
         Staff newStaff = new Staff();
         newStaff.firstName = firstName;
@@ -52,6 +68,7 @@ public class Staff{
         newStaff.address = address;
         newStaff.department = department;
         newStaff.position = position;
+        newStaff.basicSalary = 1000;
 
         totalStaff++;
         staffIDCounter++;
@@ -62,7 +79,7 @@ public class Staff{
         System.out.println("Staff data added successfully ...");
     }
 
-    public static String viewStaff(ArrayList<Staff> staffList, String targetID) {
+    public static String viewStaff(String targetID) {
         for (Staff staff : staffList) {
             if (staff.getID().equals(targetID)) {
                 StringBuilder staffInfo = new StringBuilder();
@@ -82,11 +99,9 @@ public class Staff{
         return "Staff not found";
     }
 
-    public static void updateStaff(ArrayList<Staff> staffList, String ID, String firstName, String lastName, String gender,
+    public static void updateStaff(String ID, String firstName, String lastName, String gender,
                             String email, String phoneNum, String address, String department, String position){
-        Iterator<Staff> curr = staffList.iterator();
-        while (curr.hasNext()) {
-            Staff staff = curr.next();
+        for (Staff staff : staffList) {
             if (staff.getID().equals(ID)) {
                 staff.firstName = firstName;
                 staff.lastName = lastName;
@@ -104,7 +119,7 @@ public class Staff{
         System.out.println("Not found ...");
     }
 
-    public static boolean fireStaff(ArrayList<Staff> staffList, String ID){
+    public static boolean fireStaff(String ID){
         Iterator<Staff> curr = staffList.iterator();
         while (curr.hasNext()) {
             Staff staff = curr.next();
@@ -117,10 +132,77 @@ public class Staff{
         }
         return false;
     }
+    
+    public static boolean validateStaff(String ID){
+        for (Staff staff : staffList) {
+            if (staff.getID().equals(ID)){
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public static void deleteAllStaff(ArrayList<Staff> staffList) {
+    public static void loadStaffData(){
         staffList.clear();
         totalStaff = 0;
         staffIDCounter = 0;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/Staff/staffData.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] staffData = line.split(Pattern.quote("|"));
+                if (staffData.length == 10) {
+                    Staff staff = new Staff(
+                            staffData[0].trim(),
+                            staffData[1].trim(),
+                            staffData[2].trim(),
+                            staffData[3].trim(),
+                            staffData[4].trim(),
+                            staffData[5].trim(),
+                            staffData[6].trim(),
+                            staffData[7].trim(),
+                            staffData[8].trim(),
+                            Double.parseDouble(staffData[9].trim())
+                            // new SimpleDateFormat("yyyy-MM-dd").parse(staffData[10].trim())
+                    );
+    
+                    staffList.add(staff);
+                }
+                else {
+                    System.out.println("Invalid data in the file: " + line);
+                }
+            }
+        } 
+        catch (IOException e) {
+            System.out.println("Error loading data from file: " + e.getMessage());
+        }
+
     }
+
+    public static void saveStaffData(){
+        String delimiter = "|", filename = "src/Staff/staffData.txt";
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            for (Staff staff : staffList) {
+                String staffData = staff.getID() + delimiter
+                        + staff.getFirstName() + delimiter
+                        + staff.getLastName() + delimiter
+                        + staff.getGender() + delimiter
+                        + staff.getEmail() + delimiter
+                        + staff.getPhoneNum() + delimiter
+                        + staff.getAddress() + delimiter
+                        + staff.getDepartment() + delimiter
+                        + staff.getPosition() + delimiter
+                        + staff.getBasicSalary() + /*DELIMITER +*/ "\n";
+                        // + new SimpleDateFormat("yyyy-MM-dd").format(staff.getHiredDate()) + "\n";
+                writer.write(staffData);
+            }
+            System.out.println("Staff data saved to " + filename + " successfully ...");
+        }
+        catch (IOException e) {
+            System.out.println("Error saving staff data to " + filename);
+            e.printStackTrace();
+        }
+    }
+    
 }

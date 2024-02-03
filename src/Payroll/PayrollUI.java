@@ -1,37 +1,58 @@
 package src.Payroll;
+import src.Staff.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
-public class PayrollUI extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-
-    private JPanel payslip;
-
+public class PayrollUI extends JFrame implements ActionListener {
+    private JTextField staffIDField, totalAllowanceField, totalOvertimePayField,
+                       totalEPFField, totalSOCSOField;
+    private ArrayList<Payroll> payroll;
+    private ArrayList<Staff> staff;
+    
     public PayrollUI() {
+        payroll = new ArrayList<Payroll>();
     }
 
-    public void generatePayslipPage() {
-        
+    public void test2(JPanel cardPanel){
+        JPanel testPanel2 = new JPanel();
+        testPanel2.add(new JLabel("Test2"));
+
+        JButton testButton2 = new JButton("Test Button2");
+        testButton2.addActionListener(this);
+        testPanel2.add(testButton2);
+
+        cardPanel.add(testPanel2, "test2");
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Payroll App");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(800, 600);
-            frame.setLocationRelativeTo(null);
+    public void printPayslip(ArrayList<Staff> staffList, String ID) {
+        for (Staff staff : staffList) {
+            if (staff.getID().equals(ID)) {
+                System.out.println("-------------- Payslip --------------");
+                System.out.println("Bufferflow inc");
+                // System.out.println("Date: " + dateFormat.format(new Date()));
+                System.out.println("Staff ID: " + staff.getID());
+                System.out.println("Name: " + staff.getFirstName() + staff.getLastName());
+                System.out.println("-------------------------------------");
+            }
+        }
+    }
 
-            CardLayout cardLayout = new CardLayout();
-            JPanel cardPanel = new JPanel();
-            cardPanel.setLayout(cardLayout);
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
 
-            PayrollUI payrollApp = new PayrollUI();
-            cardLayout.show(cardPanel, "payslip");
+        switch (command) {
+            case "Test Button2":
+                JOptionPane.showMessageDialog(null, "YIPPEE TWO!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                break;
+            default:
 
-            frame.add(cardPanel);
-            frame.setVisible(true);
-        });
+        }
     }
 }
