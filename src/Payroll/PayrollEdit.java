@@ -1,24 +1,22 @@
 package src.Payroll;
+import src.Staff.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.text.NumberFormatter;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Calendar;
 
-public class PayrollAdd extends JInternalFrame implements ActionListener {
-    private JLabel titleLabel, staffIDLabel, monthLabel, yearLabel, totalAllowanceLabel,
+public class PayrollEdit extends JInternalFrame implements ActionListener{
+    private JLabel titleLabel, payrollIDLabel, monthLabel, yearLabel, totalAllowanceLabel,
 				   totalOvertimePayLabel, totalEPFLabel, totalSOCSOLabel;
-	private JTextField staffIDField;
+	private JTextField payrollIDField;
 	private JFormattedTextField totalAllowanceField, totalOvertimePayField,
                                 totalEPFField, totalSOCSOField;
 	private JComboBox<String> monthComboBox;
 	private JSpinner yearSpinner;
-	private JButton createPayrollButton;
+	private JButton enterButton, editPayrollButton;
+    private String payrollID = "";
 
-    public PayrollAdd() {
+    public PayrollEdit(){
         setClosable(false);
         setSize(825, 535);
         setMinimumSize(new Dimension(825, 535));
@@ -28,8 +26,39 @@ public class PayrollAdd extends JInternalFrame implements ActionListener {
         setFrameIcon(null);
 
         titleLabel = new JLabel();
-		staffIDLabel = new JLabel();
-		staffIDField = new JTextField();
+		payrollIDLabel = new JLabel();
+		payrollIDField = new JTextField();
+		enterButton = new JButton();
+
+        titleLabel.setText("Edit Payroll Information");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD, titleLabel.getFont().getSize() + 20f));
+        titleLabel.setBounds(110, 30, 385, titleLabel.getPreferredSize().height);
+        getContentPane().add(titleLabel);
+
+        payrollIDLabel.setText("Enter Payroll ID:");
+        payrollIDLabel.setFont(payrollIDLabel.getFont().deriveFont(payrollIDLabel.getFont().getSize() + 5f));
+        payrollIDLabel.setBounds(110, 120, 145, 30);
+        getContentPane().add(payrollIDLabel);
+
+        payrollIDField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        payrollIDField.setBounds(110, 165, 180, 30);
+        getContentPane().add(payrollIDField);
+
+        enterButton.setText("Enter");
+        enterButton.setBackground(new Color(0x00db00));
+        enterButton.setForeground(Color.white);
+        enterButton.setFont(enterButton.getFont().deriveFont(enterButton.getFont().getStyle() | Font.BOLD, enterButton.getFont().getSize() + 5f));
+        enterButton.addActionListener(this);
+        enterButton.setBounds(372, 165, 100, 30);
+        getContentPane().add(enterButton);
+
+        setVisible(true);
+    }
+
+    public void PayrollEditFrame(){
+        titleLabel = new JLabel();
+		payrollIDLabel = new JLabel();
+		payrollIDField = new JTextField();
 		monthLabel = new JLabel();
 		monthComboBox = new JComboBox<>();
 		yearLabel = new JLabel();
@@ -42,21 +71,21 @@ public class PayrollAdd extends JInternalFrame implements ActionListener {
 		totalEPFField = new JFormattedTextField();
 		totalSOCSOLabel = new JLabel();
 		totalSOCSOField = new JFormattedTextField();
-		createPayrollButton = new JButton();
-        
-        titleLabel.setText("Add Staff Payroll");
+		editPayrollButton = new JButton();
+
+        titleLabel.setText("Edit Payroll Information");
 		titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD, titleLabel.getFont().getSize() + 20f));
-		titleLabel.setBounds(110, 30, 265, titleLabel.getPreferredSize().height);
+		titleLabel.setBounds(110, 30, 385, titleLabel.getPreferredSize().height);
 		getContentPane().add(titleLabel);
 
-		staffIDLabel.setText("Staff ID : ");
-		staffIDLabel.setFont(staffIDLabel.getFont().deriveFont(staffIDLabel.getFont().getSize() + 5f));
-		staffIDLabel.setBounds(110, 120, 100, 30);
-		getContentPane().add(staffIDLabel);
+		payrollIDLabel.setText("Payroll ID : ");
+		payrollIDLabel.setFont(payrollIDLabel.getFont().deriveFont(payrollIDLabel.getFont().getSize() + 5f));
+		payrollIDLabel.setBounds(110, 120, 100, 30);
+		getContentPane().add(payrollIDLabel);
 
-		staffIDField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		staffIDField.setBounds(110, 150, 105, 30);
-		getContentPane().add(staffIDField);
+		payrollIDField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		payrollIDField.setBounds(110, 150, 105, 30);
+		getContentPane().add(payrollIDField);
 
 		monthLabel.setText("Month : ");
 		monthLabel.setFont(monthLabel.getFont().deriveFont(monthLabel.getFont().getSize() + 5f));
@@ -127,42 +156,26 @@ public class PayrollAdd extends JInternalFrame implements ActionListener {
 		totalSOCSOField.setBounds(355, 330, 210, 30);
 		getContentPane().add(totalSOCSOField);
 
-		createPayrollButton.setText("Add Payroll");
-		createPayrollButton.setBackground(new Color(0x00db00));
-		createPayrollButton.setForeground(Color.white);
-		createPayrollButton.setFont(createPayrollButton.getFont().deriveFont(createPayrollButton.getFont().getStyle() | Font.BOLD, createPayrollButton.getFont().getSize() + 5f));
-		createPayrollButton.addActionListener(this);
-		createPayrollButton.setBounds(435, 435, 130, createPayrollButton.getPreferredSize().height);
-		getContentPane().add(createPayrollButton);
+		editPayrollButton.setText("Edit Payroll");
+		editPayrollButton.setBackground(new Color(0x00db00));
+		editPayrollButton.setForeground(Color.white);
+		editPayrollButton.setFont(editPayrollButton.getFont().deriveFont(editPayrollButton.getFont().getStyle() | Font.BOLD, editPayrollButton.getFont().getSize() + 5f));
+		editPayrollButton.addActionListener(this);
+		editPayrollButton.setBounds(435, 435, 130, editPayrollButton.getPreferredSize().height);
+		getContentPane().add(editPayrollButton);
 
         setVisible(true);
     }
 
-    private JFormattedTextField createDoubleNumTextField() {
-        NumberFormat format = new DecimalFormat("#0.00");
-        NumberFormatter formatter = new NumberFormatter(format);
-        formatter.setMinimum(0.0);
-        formatter.setMaximum(1000000.0);
+    public void actionPerformed(ActionEvent e){
+        if (e.getActionCommand().equals("Enter")) {
+            getContentPane().removeAll();
+            getContentPane().repaint();
+            
+            PayrollEditFrame();
 
-        JFormattedTextField textField = new JFormattedTextField(formatter);
-        textField.setColumns(10);
-
-        return textField;
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("Add Payroll")){
-            double allowance = Double.parseDouble(totalAllowanceField.getText());
-            double overtimePay = Double.parseDouble(totalOvertimePayField.getText());
-            double EPF = Double.parseDouble(totalEPFField.getText());
-            double SOCSO = Double.parseDouble(totalSOCSOField.getText());
-
-            if(Payroll.addPayroll(staffIDField.getText(), allowance, overtimePay, EPF, SOCSO)){
-                JOptionPane.showMessageDialog(null, "Payslip Added!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Staff ID does not exist in system.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            revalidate();
+            repaint();
         }
     }
 }

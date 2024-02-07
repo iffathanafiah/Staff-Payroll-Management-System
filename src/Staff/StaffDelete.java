@@ -1,36 +1,57 @@
 package src.Staff;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class StaffDelete extends JFrame implements ActionListener {
-    private JTextField IDField;
+public class StaffDelete extends JInternalFrame implements ActionListener {
+    private JLabel titleLabel, staffIDLabel;
+	private JTextField staffIDField;
+	private JButton deleteStaffButton;
     private String staffID = "";
 
     public StaffDelete() {
-        setTitle("Delete Staff Page");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
-        setLocationRelativeTo(null);
+        setClosable(false);
+        setSize(825, 535);
+        setMinimumSize(new Dimension(825, 535));
+        setMaximumSize(new Dimension(825, 535));
+        setLocation(175, 85);        
+        getContentPane().setLayout(null);
+        setFrameIcon(null);
 
-        JPanel deleteStaffPanel = new JPanel(new GridLayout(2, 2, 10, 10));
-    
-        JLabel label = new JLabel("Enter Staff ID to delete:");
-        IDField = new JTextField();
-        JButton deleteButton = new JButton("Remove Staff");
-    
-        deleteButton.addActionListener(this);
-    
-        deleteStaffPanel.add(label);
-        deleteStaffPanel.add(IDField);
-        deleteStaffPanel.add(deleteButton);
+		titleLabel = new JLabel();
+		staffIDLabel = new JLabel();
+		staffIDField = new JTextField();
+		deleteStaffButton = new JButton();
 
-        add(deleteStaffPanel);
+        titleLabel.setText("Delete Staff");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD, titleLabel.getFont().getSize() + 20f));
+        titleLabel.setBounds(110, 20, 335, titleLabel.getPreferredSize().height);
+        getContentPane().add(titleLabel);
+
+        staffIDLabel.setText("Enter Staff ID:");
+        staffIDLabel.setFont(staffIDLabel.getFont().deriveFont(staffIDLabel.getFont().getSize() + 5f));
+        staffIDLabel.setBounds(110, 100, 120, 30);
+        getContentPane().add(staffIDLabel);
+
+        staffIDField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        staffIDField.setBounds(110, 145, 180, 30);
+        getContentPane().add(staffIDField);
+
+        deleteStaffButton.setText("Delete");
+        deleteStaffButton.setBackground(new Color(0xcb0000));
+        deleteStaffButton.setForeground(Color.white);
+        deleteStaffButton.setFont(deleteStaffButton.getFont().deriveFont(deleteStaffButton.getFont().getStyle() | Font.BOLD, deleteStaffButton.getFont().getSize() + 5f));
+        deleteStaffButton.addActionListener(this);
+        deleteStaffButton.setBounds(340, 145, 100, 30);
+        getContentPane().add(deleteStaffButton);
+
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Remove Staff")) {
-            staffID = IDField.getText();
+        if (e.getActionCommand().equals("Delete")) {
+            staffID = staffIDField.getText();
             if (!staffID.isEmpty()){
                 if(Staff.fireStaff(staffID)){
                     JOptionPane.showMessageDialog(null, "Staff deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -43,9 +64,5 @@ public class StaffDelete extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please enter a Staff ID.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new StaffDelete().setVisible(true));
     }
 }

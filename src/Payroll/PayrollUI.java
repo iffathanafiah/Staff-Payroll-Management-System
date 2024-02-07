@@ -1,23 +1,13 @@
 package src.Payroll;
 import src.Staff.*;
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class PayrollUI extends JFrame implements ActionListener {
-    private JTextField staffIDField, totalAllowanceField, totalOvertimePayField,
-                       totalEPFField, totalSOCSOField;
-    private ArrayList<Payroll> payroll;
-    private ArrayList<Staff> staff;
     
     public PayrollUI() {
-        payroll = new ArrayList<Payroll>();
     }
 
     public void test2(JPanel cardPanel){
@@ -45,13 +35,7 @@ public class PayrollUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        String command = e.getActionCommand();
-
-        switch (command) {
-            case "Test Button2":
-                JOptionPane.showMessageDialog(null, "YIPPEE TWO!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                break;
-            default:
+        if(e.getActionCommand().equals("Add Payroll")){
 
         }
     }

@@ -9,12 +9,19 @@ public class Payroll{
 
     private String payrollID;
     private Date payrollDate;
-    private double totalGrossSalary, totalTaxes, totalNetSalary, EPF, SOCSO, allowancePay, overtimePay;
-    private double basicSalary;
+    private double totalGrossSalary, totalTaxes, totalNetSalary, EPF, SOCSO, allowancePay, overtimePay, basicSalary;
 
     public Payroll() {}
 
-    public String getPayrollID()      {return this.payrollID;}
+    public String getPayrollID()            {return this.payrollID;}
+    public double getTotalGrossSalary()     {return this.totalGrossSalary;}
+    public double getTotalTaxes()           {return this.totalTaxes;}
+    public double getTotalNetSalary()       {return this.totalNetSalary;}
+    public double getBasicSalary()          {return this.basicSalary;}
+    public double getAllowancePay()         {return this.allowancePay;}
+    public double getOvertimePay()          {return this.overtimePay;}
+    public double getEPF()                  {return this.EPF;}
+    public double getSOCSO()                {return this.SOCSO;}
 
     public static boolean addPayroll(String staffID, double allowance, double overtimePay, double EPF, double SOCSO){
         Staff staff = new Staff();
@@ -37,6 +44,26 @@ public class Payroll{
         }
         else{
             // lmao takde data bruh
+        }
+        return false;
+    }
+
+    public static boolean viewPayroll(String payrollID){
+        for(Payroll payroll : payrollList){
+            if (payroll.getPayrollID().equals(payrollID)) {
+                StringBuilder payrollInfo = new StringBuilder();
+                payrollInfo.append("Payroll ID      : ").append(payroll.getPayrollID()).append("\n\n");
+                payrollInfo.append("Basic Salary    : ").append(payroll.getBasicSalary()).append("\n");
+                payrollInfo.append("Allowances      : ").append(payroll.getAllowancePay()).append("\n");
+                payrollInfo.append("Overtime Pay    : ").append(payroll.getOvertimePay()).append("\n");
+                payrollInfo.append("Gross Salary    : ").append(payroll.getTotalGrossSalary()).append("\n\n");
+                payrollInfo.append("EPF             : ").append(payroll.getEPF()).append("\n");
+                payrollInfo.append("SOCSO           : ").append(payroll.getSOCSO()).append("\n");
+                payrollInfo.append("Total Deduction : ").append(payroll.getTotalTaxes()).append("\n\n");
+                payrollInfo.append("Net Salary      : ").append(payroll.getTotalNetSalary()).append("\n");
+
+                return true;
+            }
         }
         return false;
     }

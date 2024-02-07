@@ -79,29 +79,19 @@ public class Staff{
         System.out.println("Staff data added successfully ...");
     }
 
-    public static String viewStaff(String targetID) {
+    public static boolean viewStaff(String staffID) {
         for (Staff staff : staffList) {
-            if (staff.getID().equals(targetID)) {
-                StringBuilder staffInfo = new StringBuilder();
-                staffInfo.append("Staff ID      : ").append(staff.getID()).append("\n");
-                staffInfo.append("First Name    : ").append(staff.getFirstName()).append("\n");
-                staffInfo.append("Last Name     : ").append(staff.getLastName()).append("\n");
-                staffInfo.append("Gender        : ").append(staff.getGender()).append("\n");
-                staffInfo.append("Email Address : ").append(staff.getEmail()).append("\n");
-                staffInfo.append("Phone Number  : ").append(staff.getPhoneNum()).append("\n");
-                staffInfo.append("Home Address  : ").append(staff.getAddress()).append("\n");
-                staffInfo.append("Department    : ").append(staff.getDepartment()).append("\n");
-                staffInfo.append("Position      : ").append(staff.getPosition()).append("\n");
-
-                return staffInfo.toString();
+            if (staff.getID().equals(staffID)) {
+                //display ...
+                return true;
             }
         }
-        return "Staff not found";
+        return false;
     }
 
     public static void updateStaff(String ID, String firstName, String lastName, String gender,
                             String email, String phoneNum, String address, String department, String position){
-        for (Staff staff : staffList) {
+        for (Staff staff : staffList){
             if (staff.getID().equals(ID)) {
                 staff.firstName = firstName;
                 staff.lastName = lastName;
