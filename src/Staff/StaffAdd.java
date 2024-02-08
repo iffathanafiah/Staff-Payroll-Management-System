@@ -1,8 +1,8 @@
 package src.Staff;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
@@ -164,7 +164,9 @@ public class StaffAdd extends JInternalFrame implements ActionListener {
         if (e.getActionCommand().equals("Add Staff")) {
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
-            String gender = maleRadioButton.isSelected() ? "Male" : "Female";
+            String gender = "";
+            if(maleRadioButton.isSelected())        {gender = "Male";}
+            else if(femaleRadioButton.isSelected()) {gender = "Female";}
             String email = emailField.getText();
             String phoneNum = phoneNumField.getText();
             String address = addressField.getText();

@@ -1,5 +1,5 @@
 package src.Payroll;
-import src.Staff.*;
+import src.Staff.Staff;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

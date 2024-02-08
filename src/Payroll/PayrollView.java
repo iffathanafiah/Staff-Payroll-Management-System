@@ -1,16 +1,16 @@
 package src.Payroll;
 import src.Staff.*;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.text.NumberFormatter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class PayrollView extends JInternalFrame implements ActionListener{
     private JLabel titleLabel, payrollIDLabel, paymentDateLabel, staffIDLabel, fullNameLabel, positionLabel, basicSalaryLabel,
@@ -55,7 +55,7 @@ public class PayrollView extends JInternalFrame implements ActionListener{
         getContentPane().add(payrollIDField);
 
         enterButton.setText("Enter");
-        enterButton.setBackground(new Color(0x00db00));
+        enterButton.setBackground(new Color(0x0037a1));
         enterButton.setForeground(Color.white);
         enterButton.setFont(enterButton.getFont().deriveFont(enterButton.getFont().getStyle() | Font.BOLD, enterButton.getFont().getSize() + 5f));
         enterButton.addActionListener(this);
@@ -324,7 +324,7 @@ public class PayrollView extends JInternalFrame implements ActionListener{
                 repaint();
             }
             else{
-                JOptionPane.showMessageDialog(null, "Payroll not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Payroll data not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         

@@ -3,9 +3,9 @@ package src.Staff;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import javax.swing.text.NumberFormatter;
 
 public class StaffEdit extends JInternalFrame implements ActionListener {
     private JLabel titleLabel, staffIDLabel, firstNameLabel, lastNameLabel, genderLabel, emailLabel,
@@ -51,7 +51,7 @@ public class StaffEdit extends JInternalFrame implements ActionListener {
         getContentPane().add(staffIDField);
 
         enterButton.setText("Enter");
-        enterButton.setBackground(new Color(0x00db00));
+        enterButton.setBackground(new Color(0x0037a1));
         enterButton.setForeground(Color.white);
         enterButton.setFont(enterButton.getFont().deriveFont(enterButton.getFont().getStyle() | Font.BOLD, enterButton.getFont().getSize() + 5f));
         enterButton.addActionListener(this);
@@ -213,14 +213,16 @@ public class StaffEdit extends JInternalFrame implements ActionListener {
                 repaint();
             }
             else{
-                JOptionPane.showMessageDialog(null, "Staff not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Staff data not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
         else if (e.getActionCommand().equals("Edit Staff")) {
             String firstName = firstNameField.getText();
             String lastName = lastNameField.getText();
-            String gender = maleRadioButton.isSelected() ? "Male" : "Female";
+            String gender = "";
+            if(maleRadioButton.isSelected())        {gender = "Male";}
+            else if(femaleRadioButton.isSelected()) {gender = "Female";}
             String email = emailField.getText();
             String phoneNum = phoneNumField.getText();
             String address = addressField.getText();

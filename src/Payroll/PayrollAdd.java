@@ -1,14 +1,12 @@
 package src.Payroll;
+import src.Staff.Staff;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.text.NumberFormatter;
-
-import src.Staff.Staff;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import javax.swing.text.NumberFormatter;
 
 public class PayrollAdd extends JInternalFrame implements ActionListener {
     private JLabel titleLabel, staffIDLabel, monthLabel, yearLabel, totalAllowanceLabel,
