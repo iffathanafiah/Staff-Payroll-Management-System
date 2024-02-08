@@ -1,7 +1,12 @@
 package src.Payroll;
 import src.Staff.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Payroll{
     private static ArrayList<Payroll> payrollList = new ArrayList<>(); 
@@ -11,6 +16,21 @@ public class Payroll{
     private double totalGrossSalary, totalTaxes, totalNetSalary, EPF, SOCSO, allowancePay, overtimePay, basicSalary;
 
     public Payroll() {}
+    public Payroll(String payrollID, String monthName, int year, double basicSalary, double allowancePay, double overtimePay,
+                   double totalGrossSalary, double EPF, double SOCSO, double totalTaxes, double totalNetSalary)
+    {
+        this.payrollID = payrollID;
+        this.monthName = monthName;
+        this.year = year;
+        this.basicSalary = basicSalary;
+        this.allowancePay = allowancePay;
+        this.overtimePay = overtimePay;
+        this.totalGrossSalary = totalGrossSalary;
+        this.EPF = EPF;
+        this.SOCSO = SOCSO;
+        this.totalTaxes = totalTaxes;
+        this.totalNetSalary = totalNetSalary;
+    }
 
     public String getPayrollID()            {return this.payrollID;}
     public String getMonthName()            {return this.monthName;}
@@ -93,10 +113,66 @@ public class Payroll{
         }
     }
 
-    public static void loadPayrollData(){
+    public static boolean loadPayrollData(){
+        payrollList.clear();
 
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/Payroll/payrollData.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] payrollData = line.split(Pattern.quote("|"));
+                if (payrollData.length == 11) {
+                    Payroll payroll = new Payroll(
+                            payrollData[0].trim(),
+                            payrollData[1].trim(),
+                            Integer.parseInt(payrollData[2].trim()),
+                            Double.parseDouble(payrollData[3].trim()),
+                            Double.parseDouble(payrollData[4].trim()),
+                            Double.parseDouble(payrollData[5].trim()),
+                            Double.parseDouble(payrollData[6].trim()),
+                            Double.parseDouble(payrollData[7].trim()),
+                            Double.parseDouble(payrollData[8].trim()),
+                            Double.parseDouble(payrollData[9].trim()),
+                            Double.parseDouble(payrollData[10].trim()));
+    
+                    payrollList.add(payroll);
+                }
+                else {
+                    System.err.println("Invalid data in the file: " + line);
+                    return false;
+                }
+            }
+            return true;
+        } 
+        catch (IOException e) {
+            System.err.println("Error loading data from file: " + e.getMessage());
+            return false;
+        }
     }
-    public static void savePayrollData(){
 
+    public static boolean savePayrollData(){
+        String delimiter = "|", filename = "src/Payroll/payrollData.txt";
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            for (Payroll payroll: payrollList) {
+                String payrollData = payroll.getPayrollID() + delimiter
+                                   + payroll.getMonthName() + delimiter
+                                   + payroll.getYear() + delimiter
+                                   + payroll.getBasicSalary() + delimiter
+                                   + payroll.getAllowancePay() + delimiter
+                                   + payroll.getOvertimePay() + delimiter
+                                   + payroll.getTotalGrossSalary() + delimiter
+                                   + payroll.getEPF() + delimiter
+                                   + payroll.getSOCSO() + delimiter
+                                   + payroll.getTotalTaxes() + delimiter
+                                   + payroll.getTotalNetSalary() + delimiter + "\n";
+                writer.write(payrollData);
+            }
+            return true;
+        }
+        catch (IOException e) {
+            System.err.println("Error saving payroll data to " + filename);
+            e.printStackTrace();
+            return false;
+        }
     }
 }

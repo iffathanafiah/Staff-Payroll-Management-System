@@ -173,14 +173,18 @@ public class MainSystem extends JFrame implements ActionListener {
 		colorBg.setBounds(0, 90, 175, 530);
 		add(colorBg);
 		
-		Staff.loadStaffData();
 		setVisible(true);
+		
+		if(Staff.loadStaffData() && Payroll.loadPayrollData()){}
+		else{
+			JOptionPane.showMessageDialog(null, "ERROR! Bad file reading", "Error", JOptionPane.INFORMATION_MESSAGE);
+		}
     }
 
     public void actionPerformed(ActionEvent e){
 		String command = e.getActionCommand();
 
-		if (internalFrame != null) {
+		if (command != "loadData" && command != "saveData" && internalFrame != null) {
 			internalFrame.getContentPane().removeAll();
 			internalFrame.dispose();
         }
@@ -210,12 +214,20 @@ public class MainSystem extends JFrame implements ActionListener {
                 break;
 
             case "loadData":
-				Staff.loadStaffData();
-                JOptionPane.showMessageDialog(null, "Data loaded successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+				if(Staff.loadStaffData() && Payroll.loadPayrollData()){
+					JOptionPane.showMessageDialog(null, "Data loaded successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "ERROR! Bad file reading", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
                 break;
 			case "saveData":
-                Staff.saveStaffData();
-                JOptionPane.showMessageDialog(null, "Data saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+				if(Staff.saveStaffData() && Payroll.savePayrollData()){
+					JOptionPane.showMessageDialog(null, "Data saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "ERROR! Bad file writing", "Error", JOptionPane.INFORMATION_MESSAGE);
+				}
                 break;
         }
 

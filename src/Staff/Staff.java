@@ -15,7 +15,8 @@ public class Staff{
 
     public Staff() {}
     public Staff(String ID, String firstName, String lastName, String gender, String email, String phoneNum,
-                 String address, String position, String hiredDate, double basicSalary) {
+                 String address, String position, String hiredDate, double basicSalary)
+    {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,7 +54,7 @@ public class Staff{
     }
 
     public static String addStaff(String firstName, String lastName, String gender, String email,
-                                 String phoneNum, String address, String position, double basicSalary)
+                                  String phoneNum, String address, String position, double basicSalary)
     {
         Staff newStaff = new Staff();
         newStaff.firstName = firstName;
@@ -72,16 +73,6 @@ public class Staff{
 
         staffList.add(newStaff);
         return newStaff.ID;
-    }
-
-    public static boolean viewStaff(String staffID) {
-        for (Staff staff : staffList) {
-            if (staff.getID().equals(staffID)) {
-                //display ...
-                return true;
-            }
-        }
-        return false;
     }
 
     public static void editStaff(String ID, String firstName, String lastName, String gender, String email,
@@ -113,7 +104,7 @@ public class Staff{
         }
     }
 
-    public static void loadStaffData(){
+    public static boolean loadStaffData(){
         staffList.clear();
         totalStaff = 0;
         staffIDCounter = 0;
@@ -124,32 +115,33 @@ public class Staff{
                 String[] staffData = line.split(Pattern.quote("|"));
                 if (staffData.length == 10) {
                     Staff staff = new Staff(
-                            staffData[0].trim(),
-                            staffData[1].trim(),
-                            staffData[2].trim(),
-                            staffData[3].trim(),
-                            staffData[4].trim(),
-                            staffData[5].trim(),
-                            staffData[6].trim(),
-                            staffData[7].trim(),
-                            staffData[8].trim(),
-                            Double.parseDouble(staffData[9].trim())
-                    );
+                          staffData[0].trim(),
+                          staffData[1].trim(),
+                          staffData[2].trim(),
+                          staffData[3].trim(),
+                          staffData[4].trim(),
+                          staffData[5].trim(),
+                          staffData[6].trim(),
+                          staffData[7].trim(),
+                          staffData[8].trim(),
+                          Double.parseDouble(staffData[9].trim()));
     
                     staffList.add(staff);
                 }
                 else {
-                    System.out.println("Invalid data in the file: " + line);
+                    System.err.println("Invalid data in the file: " + line);
+                    return false;
                 }
             }
+            return true;
         } 
         catch (IOException e) {
-            System.out.println("Error loading data from file: " + e.getMessage());
+            System.err.println("Error loading data from file: " + e.getMessage());
+            return false;
         }
-
     }
 
-    public static void saveStaffData(){
+    public static boolean saveStaffData(){
         String delimiter = "|", filename = "src/Staff/staffData.txt";
 
         try (FileWriter writer = new FileWriter(filename)) {
@@ -166,12 +158,12 @@ public class Staff{
                         + staff.getBasicSalary() + delimiter + "\n";
                 writer.write(staffData);
             }
-            System.out.println("Staff data saved to " + filename + " successfully ...");
+            return true;
         }
         catch (IOException e) {
-            System.out.println("Error saving staff data to " + filename);
+            System.err.println("Error saving staff data to " + filename);
             e.printStackTrace();
+            return false;
         }
     }
-    
 }
