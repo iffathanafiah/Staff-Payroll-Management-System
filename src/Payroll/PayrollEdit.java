@@ -1,18 +1,19 @@
 package src.Payroll;
-import src.Staff.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class PayrollEdit extends JInternalFrame implements ActionListener{
     private JLabel titleLabel, payrollIDLabel, monthLabel, yearLabel, totalAllowanceLabel,
-				   totalOvertimePayLabel, totalEPFLabel, totalSOCSOLabel;
-	private JTextField payrollIDField;
+				   totalOvertimePayLabel, totalEPFLabel, totalSOCSOLabel, currencyLabel1,
+				   currencyLabel2, currencyLabel3, currencyLabel4;
+	private JTextField payrollIDField, monthField, yearField;
 	private JFormattedTextField totalAllowanceField, totalOvertimePayField,
                                 totalEPFField, totalSOCSOField;
-	private JComboBox<String> monthComboBox;
-	private JSpinner yearSpinner;
 	private JButton enterButton, editPayrollButton;
     private String payrollID = "";
 
@@ -25,7 +26,11 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
         getContentPane().setLayout(null);
         setFrameIcon(null);
 
-        titleLabel = new JLabel();
+        enterPayrollIDFrame();
+    }
+
+	public void enterPayrollIDFrame(){
+		titleLabel = new JLabel();
 		payrollIDLabel = new JLabel();
 		payrollIDField = new JTextField();
 		enterButton = new JButton();
@@ -53,24 +58,28 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
         getContentPane().add(enterButton);
 
         setVisible(true);
-    }
+	}
 
-    public void PayrollEditFrame(){
+    public void PayrollEditFrame(Payroll data){
         titleLabel = new JLabel();
 		payrollIDLabel = new JLabel();
 		payrollIDField = new JTextField();
 		monthLabel = new JLabel();
-		monthComboBox = new JComboBox<>();
+		monthField = new JTextField();
 		yearLabel = new JLabel();
-		yearSpinner = new JSpinner();
+		yearField = new JTextField();
 		totalAllowanceLabel = new JLabel();
-		totalAllowanceField = new JFormattedTextField();
+		currencyLabel1 = new JLabel();
+		totalAllowanceField = doubleNumTextField();
 		totalOvertimePayLabel = new JLabel();
-		totalOvertimePayField = new JFormattedTextField();
+		currencyLabel2 = new JLabel();
+		totalOvertimePayField = doubleNumTextField();
 		totalEPFLabel = new JLabel();
-		totalEPFField = new JFormattedTextField();
+		currencyLabel3 = new JLabel();
+		totalEPFField = doubleNumTextField();
 		totalSOCSOLabel = new JLabel();
-		totalSOCSOField = new JFormattedTextField();
+		currencyLabel4 = new JLabel();
+		totalSOCSOField = doubleNumTextField();
 		editPayrollButton = new JButton();
 
         titleLabel.setText("Edit Payroll Information");
@@ -85,6 +94,8 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 
 		payrollIDField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		payrollIDField.setBounds(110, 150, 105, 30);
+		payrollIDField.setText(data.getPayrollID());
+		payrollIDField.setEditable(false);
 		getContentPane().add(payrollIDField);
 
 		monthLabel.setText("Month : ");
@@ -92,41 +103,39 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 		monthLabel.setBounds(355, 120, 100, 30);
 		getContentPane().add(monthLabel);
 
-		monthComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		monthComboBox.setModel(new DefaultComboBoxModel<>(new String[] {
-			"January",
-			"February",
-			"March",
-			"April",
-			"May",
-			"June",
-			"July",
-			"August",
-			"September",
-			"October",
-			"November",
-			"December"
-		}));
-		monthComboBox.setBounds(355, 150, 115, 30);
-		getContentPane().add(monthComboBox);
+		monthField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		monthField.setText(data.getMonthName());
+		monthField.setEditable(false);
+		monthField.setBounds(355, 150, 115, 30);
+		getContentPane().add(monthField);
 
 		yearLabel.setText("Year : ");
 		yearLabel.setFont(yearLabel.getFont().deriveFont(yearLabel.getFont().getSize() + 5f));
 		yearLabel.setBounds(480, 120, 65, 30);
 		getContentPane().add(yearLabel);
 
-		yearSpinner.setModel(new SpinnerNumberModel(2024, 1924, 2124, 1));
-		yearSpinner.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		yearSpinner.setBounds(480, 150, 85, 30);
-		getContentPane().add(yearSpinner);
+		yearField = new JTextField();
+		yearField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		yearField.setText(String.valueOf(data.getYear()));
+		yearField.setEditable(false);
+		yearField.setBounds(480, 150, 85, 30);
+		getContentPane().add(yearField);
 
 		totalAllowanceLabel.setText("Allowance : ");
 		totalAllowanceLabel.setFont(totalAllowanceLabel.getFont().deriveFont(totalAllowanceLabel.getFont().getSize() + 5f));
 		totalAllowanceLabel.setBounds(110, 225, 100, 30);
 		getContentPane().add(totalAllowanceLabel);
 
+		currencyLabel1.setText("RM");
+		currencyLabel1.setFont(currencyLabel1.getFont().deriveFont(currencyLabel1.getFont().getStyle() | Font.BOLD, currencyLabel1.getFont().getSize() + 2f));
+		currencyLabel1.setBorder(UIManager.getBorder("TextField.border"));
+		currencyLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+		currencyLabel1.setBounds(110, 255, 45, 30);
+		getContentPane().add(currencyLabel1);
+
 		totalAllowanceField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		totalAllowanceField.setBounds(110, 255, 210, 30);
+		totalAllowanceField.setValue(data.getAllowancePay());
+		totalAllowanceField.setBounds(152, 255, 168, 30);
 		getContentPane().add(totalAllowanceField);
 
 		totalOvertimePayLabel.setText("Overtime : ");
@@ -134,8 +143,16 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 		totalOvertimePayLabel.setBounds(110, 300, 100, 30);
 		getContentPane().add(totalOvertimePayLabel);
 
+		currencyLabel2.setText("RM");
+		currencyLabel2.setFont(currencyLabel2.getFont().deriveFont(currencyLabel2.getFont().getStyle() | Font.BOLD, currencyLabel2.getFont().getSize() + 2f));
+		currencyLabel2.setBorder(UIManager.getBorder("TextField.border"));
+		currencyLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+		currencyLabel2.setBounds(110, 330, 45, 30);
+		getContentPane().add(currencyLabel2);
+
 		totalOvertimePayField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		totalOvertimePayField.setBounds(110, 330, 210, 30);
+		totalOvertimePayField.setValue(data.getOvertimePay());
+		totalOvertimePayField.setBounds(152, 330, 168, 30);
 		getContentPane().add(totalOvertimePayField);
 
 		totalEPFLabel.setText("EPF : ");
@@ -143,8 +160,16 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 		totalEPFLabel.setBounds(355, 225, 90, 30);
 		getContentPane().add(totalEPFLabel);
 
+		currencyLabel3.setText("RM");
+		currencyLabel3.setFont(currencyLabel3.getFont().deriveFont(currencyLabel3.getFont().getStyle() | Font.BOLD, currencyLabel3.getFont().getSize() + 2f));
+		currencyLabel3.setBorder(UIManager.getBorder("TextField.border"));
+		currencyLabel3.setHorizontalAlignment(SwingConstants.CENTER);
+		currencyLabel3.setBounds(355, 255, 45, 30);
+		getContentPane().add(currencyLabel3);
+
 		totalEPFField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		totalEPFField.setBounds(355, 255, 210, 30);
+		totalEPFField.setValue(data.getEPF());
+		totalEPFField.setBounds(397, 255, 168, 30);
 		getContentPane().add(totalEPFField);
 
 		totalSOCSOLabel.setText("SOCSO : ");
@@ -152,8 +177,16 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 		totalSOCSOLabel.setBounds(355, 300, 110, 30);
 		getContentPane().add(totalSOCSOLabel);
 
+		currencyLabel4.setText("RM");
+		currencyLabel4.setFont(currencyLabel4.getFont().deriveFont(currencyLabel4.getFont().getStyle() | Font.BOLD, currencyLabel4.getFont().getSize() + 2f));
+		currencyLabel4.setBorder(UIManager.getBorder("TextField.border"));
+		currencyLabel4.setHorizontalAlignment(SwingConstants.CENTER);
+		currencyLabel4.setBounds(355, 330, 45, 30);
+		getContentPane().add(currencyLabel4);
+
 		totalSOCSOField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		totalSOCSOField.setBounds(355, 330, 210, 30);
+		totalSOCSOField.setValue(data.getSOCSO());
+		totalSOCSOField.setBounds(397, 330, 168, 30);
 		getContentPane().add(totalSOCSOField);
 
 		editPayrollButton.setText("Edit Payroll");
@@ -166,16 +199,60 @@ public class PayrollEdit extends JInternalFrame implements ActionListener{
 
         setVisible(true);
     }
+	private JFormattedTextField doubleNumTextField() {
+        NumberFormat format = new DecimalFormat("#0.00");
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setMinimum(0.0);
+        formatter.setMaximum(1000000.0);
+
+        JFormattedTextField textField = new JFormattedTextField(formatter);
+        textField.setColumns(10);
+
+        return textField;
+    }
 
     public void actionPerformed(ActionEvent e){
         if (e.getActionCommand().equals("Enter")) {
-            getContentPane().removeAll();
-            getContentPane().repaint();
-            
-            PayrollEditFrame();
-
-            revalidate();
-            repaint();
+            payrollID = payrollIDField.getText();
+            Payroll data = Payroll.retrievePayrollData(payrollID);
+            if(data != null){
+                getContentPane().removeAll();
+                getContentPane().repaint();
+                PayrollEditFrame(data);
+                revalidate();
+                repaint();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Payroll not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
+
+		else if (e.getActionCommand().equals("Edit Payroll")){
+            double allowance, overtimePay, EPF, SOCSO;
+
+			try{
+				if(totalAllowanceField.getText().isEmpty() || totalOvertimePayField.getText().isEmpty() || totalEPFField.getText().isEmpty() || totalSOCSOField.getText().isEmpty()){
+					throw new IllegalArgumentException("Please fill in all fields!");
+				}
+				allowance = Double.parseDouble(totalAllowanceField.getText());
+				overtimePay = Double.parseDouble(totalOvertimePayField.getText());
+				EPF = Double.parseDouble(totalEPFField.getText());
+				SOCSO = Double.parseDouble(totalSOCSOField.getText());
+
+				Payroll.editPayroll(payrollIDField.getText(), allowance, overtimePay, EPF, SOCSO);
+				getContentPane().removeAll();
+                getContentPane().repaint();
+                enterPayrollIDFrame();
+                revalidate();
+                repaint();
+				JOptionPane.showMessageDialog(null, "Payroll data has been edited successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			}
+			catch(NumberFormatException ex){
+				JOptionPane.showMessageDialog(null, "Please enter a valid number for currency!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			catch(IllegalArgumentException ex){
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
     }
 }

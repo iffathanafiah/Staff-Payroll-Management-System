@@ -1,19 +1,20 @@
 package src.Payroll;
 import src.Staff.*;
 
-import java.util.Date;
 import java.util.ArrayList;
 
 public class Payroll{
     private static ArrayList<Payroll> payrollList = new ArrayList<>(); 
 
-    private String payrollID;
-    private Date payrollDate;
+    private String payrollID, monthName;
+    private int year;
     private double totalGrossSalary, totalTaxes, totalNetSalary, EPF, SOCSO, allowancePay, overtimePay, basicSalary;
 
     public Payroll() {}
 
     public String getPayrollID()            {return this.payrollID;}
+    public String getMonthName()            {return this.monthName;}
+    public int getYear()                    {return this.year;}
     public double getTotalGrossSalary()     {return this.totalGrossSalary;}
     public double getTotalTaxes()           {return this.totalTaxes;}
     public double getTotalNetSalary()       {return this.totalNetSalary;}
@@ -23,70 +24,79 @@ public class Payroll{
     public double getEPF()                  {return this.EPF;}
     public double getSOCSO()                {return this.SOCSO;}
 
-    public static boolean addPayroll(String staffID, double allowance, double overtimePay, double EPF, double SOCSO){
-        Staff staff = new Staff();
-        if (Staff.validateStaff(staffID)) {
-            Payroll newSlip = new Payroll();
-            /*newSlip.payrollDate = GETDATEINFORMAT--MONTH-YEAR*/;
-            newSlip.payrollID = staffID /* + GETDATEINFORMAT--MONTH-YEAR*/;
-            newSlip.basicSalary = staff.getBasicSalary(staffID);
-            newSlip.allowancePay = allowance;
-            newSlip.overtimePay = overtimePay;
-            newSlip.totalGrossSalary = newSlip.basicSalary + allowance + overtimePay;
-            newSlip.EPF = EPF;
-            newSlip.SOCSO = SOCSO;
-            newSlip.totalTaxes = EPF + SOCSO;
-            newSlip.totalNetSalary = newSlip.totalGrossSalary - newSlip.totalTaxes;
-            
-            payrollList.add(newSlip);
-            
-            return true;
-        }
-        else{
-            // lmao takde data bruh
-        }
-        return false;
-    }
+    public static String getMonthNumber(String monthName) {
+		switch (monthName) {
+			case "January":		return "01";
+			case "February":	return "02";
+			case "March":		return "03";
+			case "April":		return "04";
+			case "May":			return "05";
+			case "June":		return "06";
+			case "July":		return "07";
+			case "August":		return "08";
+			case "September":	return "09";
+			case "October":		return "10";
+			case "November":	return "11";
+			case "December":	return "12";
+			default:			return "";
+		}
+	}
 
-    public static boolean viewPayroll(String payrollID){
+    public static boolean validatePayroll(String staffID, int year, String month){
+        String payrollID = staffID + "_" + year + "-" + getMonthNumber(month);
         for(Payroll payroll : payrollList){
-            if (payroll.getPayrollID().equals(payrollID)) {
-                StringBuilder payrollInfo = new StringBuilder();
-                payrollInfo.append("Payroll ID      : ").append(payroll.getPayrollID()).append("\n\n");
-                payrollInfo.append("Basic Salary    : ").append(payroll.getBasicSalary()).append("\n");
-                payrollInfo.append("Allowances      : ").append(payroll.getAllowancePay()).append("\n");
-                payrollInfo.append("Overtime Pay    : ").append(payroll.getOvertimePay()).append("\n");
-                payrollInfo.append("Gross Salary    : ").append(payroll.getTotalGrossSalary()).append("\n\n");
-                payrollInfo.append("EPF             : ").append(payroll.getEPF()).append("\n");
-                payrollInfo.append("SOCSO           : ").append(payroll.getSOCSO()).append("\n");
-                payrollInfo.append("Total Deduction : ").append(payroll.getTotalTaxes()).append("\n\n");
-                payrollInfo.append("Net Salary      : ").append(payroll.getTotalNetSalary()).append("\n");
-
+            if(payroll.getPayrollID().equals(payrollID)){
                 return true;
             }
         }
         return false;
     }
-    
-    public void generatePayslip(String payrollID, Date payrollDate, double totalGrossSalary, double totalTaxes, 
-                                double totalNetSalary, double epf, double socso, double allowancePay, double overtimePay, double basicSalary)
-    {
-        this.basicSalary = basicSalary;
-        this.totalGrossSalary = totalGrossSalary;
-        this.totalTaxes = totalTaxes;
-        this.totalNetSalary = totalNetSalary;
-        this.EPF = epf;
-        this.SOCSO = socso;
-        this.allowancePay = allowancePay;
-        this.overtimePay = overtimePay;
+    public static Payroll retrievePayrollData(String payrollID){
+        for(Payroll payroll : payrollList){
+            if(payroll.getPayrollID().equals(payrollID)){
+                return payroll;
+            }
+        }
+        return null;
+    }
 
-        System.out.println("Basic Salary : " + basicSalary);
-        System.out.println("Allowance Pay : " + allowancePay);
-        System.out.println("Overtime Pay : " + overtimePay);
-        System.out.println("Gross Salary : " + totalGrossSalary);
-        System.out.println("EPF : " + epf);
-        System.out.println("SOCSO : " + socso);
-        System.out.println("Total Taxes : " + totalTaxes);
-        System.out.println("Net Salary : " + totalNetSalary);
+    public static String addPayroll(Staff staff, String month, int year, double allowance, double overtimePay, double EPF, double SOCSO){
+        Payroll newSlip = new Payroll();
+        newSlip.payrollID = staff.getID() + "_" + year + "-" + getMonthNumber(month);
+        newSlip.monthName = month;
+        newSlip.year = year;
+        newSlip.basicSalary = staff.getBasicSalary();
+        newSlip.allowancePay = allowance;
+        newSlip.overtimePay = overtimePay;
+        newSlip.totalGrossSalary = newSlip.basicSalary + allowance + overtimePay;
+        newSlip.EPF = EPF;
+        newSlip.SOCSO = SOCSO;
+        newSlip.totalTaxes = EPF + SOCSO;
+        newSlip.totalNetSalary = newSlip.totalGrossSalary - newSlip.totalTaxes;
+        
+        payrollList.add(newSlip);
+        return newSlip.payrollID;
+    }
+
+    public static void editPayroll(String payrollID, double allowance, double overtimePay, double EPF, double SOCSO){
+        for (Payroll payroll : payrollList){
+            if(payroll.getPayrollID().equals(payrollID)){
+                payroll.allowancePay = allowance;
+                payroll.overtimePay = overtimePay;
+                payroll.totalGrossSalary = payroll.basicSalary + allowance + overtimePay;
+                payroll.EPF = EPF;
+                payroll.SOCSO = SOCSO;
+                payroll.totalTaxes = EPF + SOCSO;
+                payroll.totalNetSalary = payroll.totalGrossSalary - payroll.totalTaxes;
+                return;
+            }
+        }
+    }
+
+    public static void loadPayrollData(){
+
+    }
+    public static void savePayrollData(){
+
     }
 }

@@ -1,15 +1,20 @@
 package src.Staff;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import javax.swing.text.NumberFormatter;
 
 public class StaffAdd extends JInternalFrame implements ActionListener {
-    private JLabel titleLabel, firstNameLabel, lastNameLabel, genderLabel, emailLabel, phoneNumLabel,
-                   addressLabel, departmentLabel, positionLabel;
+    private JLabel titleLabel, firstNameLabel, lastNameLabel, genderLabel, emailLabel,
+                   phoneNumLabel, addressLabel, positionLabel, basicSalaryLabel, currencyLabel;
     private JTextField firstNameField, lastNameField, emailField, phoneNumField, addressField;
+    private JFormattedTextField basicSalaryField;
     private JRadioButton maleRadioButton, femaleRadioButton;
-    private JComboBox<String> departmentField, positionField;
+    private ButtonGroup buttonGroup;
+    private JComboBox<String> positionField;
     private JButton addStaffButton;
 
     public StaffAdd() {
@@ -91,27 +96,33 @@ public class StaffAdd extends JInternalFrame implements ActionListener {
         addressField.setBounds(110, 310, 535, 30);
         getContentPane().add(addressField);
 
-        departmentLabel = new JLabel("Department:");
-        departmentLabel.setFont(departmentLabel.getFont().deriveFont(departmentLabel.getFont().getSize() + 5f));
-        departmentLabel.setBounds(110, 355, 115, 30);
-        getContentPane().add(departmentLabel);
-
-        String[] departments = {"Department 1", "Department 2", "Department 3"};
-        departmentField = new JComboBox<>(departments);
-        departmentField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        departmentField.setBounds(110, 385, 260, 30);
-        getContentPane().add(departmentField);
-
         positionLabel = new JLabel("Position:");
         positionLabel.setFont(positionLabel.getFont().deriveFont(positionLabel.getFont().getSize() + 5f));
-        positionLabel.setBounds(385, 355, 80, 30);
+        positionLabel.setBounds(110, 355, 115, 30);
         getContentPane().add(positionLabel);
 
-        String[] positions = {"Position 1", "Position 2", "Position 3"};
+        String[] positions = {"-----", "IT - Software Developer", "Finance - Financial Analyst", "Marketing - Promoter"};
         positionField = new JComboBox<>(positions);
         positionField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        positionField.setBounds(385, 385, 260, 30);
+        positionField.setBounds(110, 385, 260, 30);
         getContentPane().add(positionField);
+
+        basicSalaryLabel = new JLabel("Basic Salary:");
+        basicSalaryLabel.setFont(positionLabel.getFont().deriveFont(basicSalaryLabel.getFont().getSize() + 5f));
+        basicSalaryLabel.setBounds(385, 355, 120, 30);
+        getContentPane().add(basicSalaryLabel);
+
+        currencyLabel = new JLabel(" RM");
+        currencyLabel.setFont(currencyLabel.getFont().deriveFont(currencyLabel.getFont().getStyle() | Font.BOLD, currencyLabel.getFont().getSize() + 2f));
+        currencyLabel.setBorder(UIManager.getBorder("TextField.border"));
+        currencyLabel.setHorizontalAlignment(SwingConstants.LEADING);
+        currencyLabel.setBounds(385, 385, 40, 30);
+        getContentPane().add(currencyLabel);
+
+        basicSalaryField = doubleNumTextField();
+        basicSalaryField.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        basicSalaryField.setBounds(425, 385, 225, 30);
+        getContentPane().add(basicSalaryField);
     
         addStaffButton = new JButton("Add Staff");
         addStaffButton.setBackground(new Color(0x00db00));
@@ -121,11 +132,32 @@ public class StaffAdd extends JInternalFrame implements ActionListener {
         addStaffButton.addActionListener(this);
         getContentPane().add(addStaffButton);
 
-        ButtonGroup buttonGroup1 = new ButtonGroup();
-		buttonGroup1.add(maleRadioButton);
-		buttonGroup1.add(femaleRadioButton);
+        buttonGroup = new ButtonGroup();
+		buttonGroup.add(maleRadioButton);
+		buttonGroup.add(femaleRadioButton);
 
         setVisible(true);
+    }
+    private JFormattedTextField doubleNumTextField() {
+        NumberFormat format = new DecimalFormat("#0.00");
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setMinimum(0.0);
+        formatter.setMaximum(1000000.0);
+
+        JFormattedTextField textField = new JFormattedTextField(formatter);
+        textField.setColumns(10);
+        
+        return textField;
+    }
+    public void resetFields() {
+        firstNameField.setText("");
+        lastNameField.setText("");
+        buttonGroup.clearSelection();
+        emailField.setText("");
+        phoneNumField.setText("");
+        addressField.setText("");
+        positionField.setSelectedIndex(0);
+        basicSalaryField.setValue(null);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -136,12 +168,26 @@ public class StaffAdd extends JInternalFrame implements ActionListener {
             String email = emailField.getText();
             String phoneNum = phoneNumField.getText();
             String address = addressField.getText();
-            String department = (String) departmentField.getSelectedItem();
             String position = (String) positionField.getSelectedItem();
-        
-            Staff.hireStaff(firstName, lastName, gender, email, phoneNum, address, department, position);
+            String temp = basicSalaryField.getText();
+            double basicSalary = 0.0;
 
-            JOptionPane.showMessageDialog(null, "Staff added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            try {
+                if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || gender.isEmpty() || phoneNum.isEmpty() || address.isEmpty() || position == "-----" || temp.isEmpty()) {
+                    throw new IllegalArgumentException("Please fill in all fields!");
+                }
+                basicSalary = Double.parseDouble(temp);
+                
+                String staffID = Staff.addStaff(firstName, lastName, gender, email, phoneNum, address, position, basicSalary);
+                JOptionPane.showMessageDialog(null, "Staff data added successfully!\nStaff ID : " + staffID, "Success", JOptionPane.INFORMATION_MESSAGE);
+                resetFields();
+            }
+            catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(null, "Please enter a valid number for basic salary!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            catch(IllegalArgumentException ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 }

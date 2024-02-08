@@ -1,4 +1,4 @@
-S001|Muhammad Ariff Ridzlan|Mohd Faudzi|Male|1221301131@student.mmu.edu.my|+601313372402|MMU Melaka|IT|IT|100.0
-S002|Muhammad Iffat|Hanafiah|Male|1221301354@student.mmu.edu.my|+601313372402|MMU Melaka|IT|IT|100.0
-S003|Nawfal Syafi'|Zailan|Male|1221301208@student.mmu.edu.my|+601313372402|MMU Melaka|IT|IT|100.0
-S004|Muhammad Haikal Hazim|Shamsul Ridzuan|Male|1221301136@student.mmu.edu.my|+601313372402|MMU Melaka|IT|IT|100.0
+S001|Nawfal Syafi'|Hensem|Male|email nawfal|6013|MMU Melaka|IT - Software Developer|07-02-2024|1000.0|
+S002|Muhammad Iffat|Hanafiah|Male|email iffat|6013|MMU Melaka|Finance - Financial Analyst|07-02-2024|1000.0|
+S003|Muhammad Ariff Ridzlan|Mohd Faudzi|Male|email ariff|6013|MMU Melaka|IT - Software Developer|07-02-2024|1000.0|
+S004|Muhammad Haikal Hazim|Shamsul Ridzuan|Male|email haikal|6013|MMU Melaka|Finance - Financial Analyst|07-02-2024|1000.0|

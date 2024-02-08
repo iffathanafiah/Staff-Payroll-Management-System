@@ -24,7 +24,7 @@ public class StaffDelete extends JInternalFrame implements ActionListener {
 		staffIDField = new JTextField();
 		deleteStaffButton = new JButton();
 
-        titleLabel.setText("Delete Staff");
+        titleLabel.setText("Delete Staff Data");
         titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getStyle() | Font.BOLD, titleLabel.getFont().getSize() + 20f));
         titleLabel.setBounds(110, 20, 335, titleLabel.getPreferredSize().height);
         getContentPane().add(titleLabel);
@@ -52,15 +52,21 @@ public class StaffDelete extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Delete")) {
             staffID = staffIDField.getText();
-            if (!staffID.isEmpty()){
-                if(Staff.fireStaff(staffID)){
-                    JOptionPane.showMessageDialog(null, "Staff deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            if (!staffID.isEmpty()) {
+                Staff temp = Staff.retrieveStaffData(staffID);
+                if(temp != null){
+                    int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete\nthe staff with ID " + staffID + " ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        Staff.deleteStaff(staffID);
+                        staffIDField.setText("");
+                        JOptionPane.showMessageDialog(null, "Staff data deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
-                else{
+                else {
                     JOptionPane.showMessageDialog(null, "Staff ID does not exist in system.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            else{
+            else {
                 JOptionPane.showMessageDialog(null, "Please enter a Staff ID.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

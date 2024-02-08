@@ -172,7 +172,8 @@ public class MainSystem extends JFrame implements ActionListener {
 		colorBg.setHorizontalAlignment(SwingConstants.CENTER);
 		colorBg.setBounds(0, 90, 175, 530);
 		add(colorBg);
-
+		
+		Staff.loadStaffData();
 		setVisible(true);
     }
 
@@ -218,12 +219,14 @@ public class MainSystem extends JFrame implements ActionListener {
                 break;
         }
 
-		internalFrame.setSize(825, 535);
-		internalFrame.setLocation(175, 85);
-		getContentPane().setLayout(null);
-		getContentPane().add(internalFrame);
-
-		internalFrame.setBounds(175, 85, 825, 535);
-		internalFrame.setVisible(true);
+		if(command != "loadData" && command != "saveData"){
+			internalFrame.setSize(825, 535);
+			internalFrame.setLocation(175, 85);
+			getContentPane().setLayout(null);
+			getContentPane().add(internalFrame);
+			
+			internalFrame.setBounds(175, 85, 825, 535);
+			internalFrame.setVisible(true);
+		}
     }
 }
