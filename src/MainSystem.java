@@ -175,6 +175,14 @@ public class MainSystem extends JFrame implements ActionListener {
 		
 		setVisible(true);
 		
+		internalFrame = new Home();
+		internalFrame.setSize(825, 535);
+		internalFrame.setLocation(175, 85);
+		getContentPane().setLayout(null);
+		getContentPane().add(internalFrame);
+		internalFrame.setBounds(175, 85, 825, 535);
+		internalFrame.setVisible(true);
+		
 		if(Staff.loadStaffData() && Payroll.loadPayrollData()){}
 		else{
 			JOptionPane.showMessageDialog(null, "ERROR! Bad file reading", "Error", JOptionPane.INFORMATION_MESSAGE);
