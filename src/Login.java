@@ -28,7 +28,6 @@ public class Login extends JFrame implements ActionListener{
 		loginPanel = new JPanel();
 		backgroundImg = new JLabel();
 
-		//======== this ========
 		setResizable(false);
 		setTitle("Login to System");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,56 +37,48 @@ public class Login extends JFrame implements ActionListener{
 		Container contentPane = getContentPane();
 		contentPane.setLayout(null);
 
-		//---- title1 ----
 		title1.setText("  STAFF PAYROLL");
 		title1.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title1.setForeground(Color.white);
 		contentPane.add(title1);
 		title1.setBounds(0, 20, 385, 50);
 
-		//---- title2 ----
 		title2.setText("  MANAGEMENT");
 		title2.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title2.setForeground(Color.white);
 		contentPane.add(title2);
 		title2.setBounds(0, 70, 320, 40);
 
-		//---- title3 ----
 		title3.setText("  SYSTEM");
 		title3.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title3.setForeground(Color.white);
 		contentPane.add(title3);
 		title3.setBounds(0, 115, 320, 40);
 
-		//---- title4 ----
 		title4.setText("STAFF PAYROLL");
 		title4.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title4.setForeground(new Color(0x333333));
 		contentPane.add(title4);
 		title4.setBounds(23, 0, 330, 95);
 
-		//---- title5 ----
 		title5.setText("MANAGEMENT");
 		title5.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title5.setForeground(new Color(0x333333));
 		contentPane.add(title5);
 		title5.setBounds(23, 67, 290, 50);
 
-		//---- title6 ----
 		title6.setText("SYSTEM");
 		title6.setFont(new Font("Segoe UI", Font.BOLD, 38));
 		title6.setForeground(new Color(0x333333));
 		contentPane.add(title6);
 		title6.setBounds(23, 115, 175, 45);
 
-		//---- loginButton ----
 		loginButton.setText("LOGIN");
 		loginButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
 		loginButton.addActionListener(this);
 		contentPane.add(loginButton);
 		loginButton.setBounds(850, 550, 100, 25);
 
-		//---- passwordLabel ----
 		passwordLabel.setText("Password");
 		passwordLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		passwordLabel.setForeground(Color.white);
@@ -96,7 +87,6 @@ public class Login extends JFrame implements ActionListener{
 		contentPane.add(passwordField);
 		passwordField.setBounds(810, 500, 140, passwordField.getPreferredSize().height);
 
-		//======== loginPanel ========
 		{
 			loginPanel.setBackground(new Color(0x999999));
 			loginPanel.setBorder(new CompoundBorder(
@@ -111,7 +101,6 @@ public class Login extends JFrame implements ActionListener{
 					)
 			));
 
-			//---- usernameLabel ----
 			usernameLabel.setText("Username");
 			usernameLabel.setForeground(Color.white);
 			usernameLabel.setFont(new Font("Segoe UI", Font.BOLD, 18));
@@ -140,7 +129,6 @@ public class Login extends JFrame implements ActionListener{
 		contentPane.add(loginPanel);
 		loginPanel.setBounds(675, 435, 300, 170);
 
-		//---- backgroundImg ----
 		backgroundImg.setBackground(new Color(0xccccff));
 		backgroundImg.setIcon(new ImageIcon("src/images/loginBackground.png"));
 		contentPane.add(backgroundImg);
