@@ -57,7 +57,7 @@ The Staff Payroll Management System is designed to meet the demands of employers
 - **Exception Handling:**
   - Exception handling is implemented throughout the system as a precautionary measure to prevent runtime errors and ensure smooth functionality even in the face of unexpected issues.
 
-### How to Run
+## How to Run
 
 The Windows batch files provide a convenient way to compile and run the system in Windows. Here's what each command in the batch file does:
 
@@ -76,11 +76,11 @@ The Windows batch files provide a convenient way to compile and run the system i
 3. **compileRun:**
    - This command combines both compile and run commands. It compiles the Java files and then runs the Staff Payroll Management System.
 
-### Contributors
+## Contributors
 
 We'd like to give credit to the following contributors who have helped in the development of this project:
 
 - [Ariff Ridzlan](https://github.com/rydzze)
 - [Nawfal Syafi'](https://github.com/Blackthorn23)
-- [Iffat](https://github.com/xsumthingz)
+- [Iffat](https://github.com/iffathanafiah)
 - Haikal Hazim
